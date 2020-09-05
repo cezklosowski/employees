@@ -1,6 +1,7 @@
 package pl.sda.web;
 
 
+import pl.sda.dao.EmployeeDao;
 import pl.sda.dto.Employee;
 
 import javax.annotation.PostConstruct;
@@ -18,24 +19,27 @@ public class EmployeesManagedBean {
 
     private List<Employee> employees = new ArrayList<>();
     private Employee newEmployee = new Employee();
+    private EmployeeDao employeeDao = new EmployeeDao();
 
     @PostConstruct
     public void init() {
         //TODO: usunąć po przepięciu na bazę
-        employees.add(new Employee(1L,"Jan", "Kowalski", "Developer", 5000, 1985));
+        //employees.add(new Employee(1L,"Jan", "Kowalski", "Developer", 5000, 1985));
     }
 
 
     public List<Employee> getList() {
         //TODO: wczytać pracowników z bazy
+        employees = employeeDao.getAll();
         return employees;
     }
 
     public void addNewEmployee() {
         // dodać pracownika do bazy
         newEmployee.setId((new Random()).nextLong());
+        employeeDao.save(newEmployee);
         employees.add(newEmployee);
-        newEmployee = new Employee();
+        //newEmployee = new Employee();
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Nowy pracownik został dodany!"));
@@ -44,7 +48,8 @@ public class EmployeesManagedBean {
 
     public void deleteEmployee(long id) {
         // dodać usuwanie do bazy
-        employees.removeIf(x -> x.getId() == id);
+        employeeDao.delete(id);
+        //employees.removeIf(x -> x.getId() == id);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Pracownik został usunięty!"));

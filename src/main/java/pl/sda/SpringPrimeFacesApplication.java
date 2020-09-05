@@ -10,7 +10,7 @@ public class SpringPrimeFacesApplication {
     public static void main(String[] args) {
         Connection.startConnection();
         SpringApplication.run(SpringPrimeFacesApplication.class, args);
-        Connection.closeConnection();
+        //Connection.closeConnection();
 
     }
 }
