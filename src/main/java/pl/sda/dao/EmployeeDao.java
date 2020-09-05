@@ -54,6 +54,18 @@ public class EmployeeDao {
 
     public void save(Employee employee){
 
+        Employee newEmployee = new Employee();
+        newEmployee.setId(employee.getId());
+        newEmployee.setFirstName(employee.getFirstName());
+        newEmployee.setLastName(employee.getLastName());
+        newEmployee.setPosition(employee.getPosition());
+        newEmployee.setSalary(employee.getSalary());
+        newEmployee.setBirthYear(employee.getBirthYear());
+
+        Connection.entityManager.getTransaction().begin();
+        Connection.entityManager.persist(newEmployee);
+        Connection.entityManager.getTransaction().commit();
+
     };
 
     public void update(Employee employee){

@@ -26,7 +26,7 @@ class EmployeeDaoTest {
     @Test
     public void getAllTest() {
         List<Employee> listFromDatabase = employeeDao.getAll();
-        assertEquals(testList, listFromDatabase);
+        assertNotEquals(0,listFromDatabase.size());
     }
 
     @Test
@@ -42,10 +42,17 @@ class EmployeeDaoTest {
     }
 
     @Test
-    public void deleteTest() {
-        employeeDao.delete(2L);
-        Employee employee = employeeDao.get(2L);
-        assertNull(employee.getId());
+    public void saveAndDeleteTest() {
+
+        Employee employee = new Employee(3L, "Zbigniew", "Mickiewicz", "Manager", 10000, 1999);
+        employeeDao.save(employee);
+        Employee employeeSaved = employeeDao.get(3L);
+        assertEquals(employeeSaved.getFirstName(), "Zbigniew");
+
+        employeeDao.delete(3L);
+        Employee employeeDeleted = employeeDao.get(3L);
+        assertNull(employeeDeleted.getId());
+
     }
 
 
