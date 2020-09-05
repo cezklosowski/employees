@@ -1,5 +1,8 @@
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.sda.dao.EmployeeDao;
+import pl.sda.database_connection.Connection;
 import pl.sda.dto.Employee;
 
 import java.util.List;
@@ -7,6 +10,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDaoTest {
+
+    @BeforeEach
+    void setUp() {
+        Connection.startConnection();
+    }
 
     @Test
     public void getAll(){
@@ -16,9 +24,11 @@ class EmployeeDaoTest {
         );
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> listFromDatabase = employeeDao.getAll();
-        System.out.println();
         assertEquals(testList,listFromDatabase);
     }
 
-
+    @AfterEach
+    void tearDown() {
+        Connection.closeConnection();
+    }
 }

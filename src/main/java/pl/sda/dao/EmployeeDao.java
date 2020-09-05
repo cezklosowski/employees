@@ -1,5 +1,6 @@
 package pl.sda.dao;
 
+import pl.sda.database_connection.Connection;
 import pl.sda.dto.Employee;
 
 import javax.persistence.EntityManager;
@@ -13,23 +14,19 @@ public class EmployeeDao {
     public EmployeeDao() {
     }
 
-    private List<Employee> employees;
+    //private List<Employee> employees;
 
     public List<Employee> getAll(){
-        // otwarcie połączenia z bazą
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jpa.hibernate");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
 
         // pobranie tabeli
-        entityManager.getTransaction().begin();
-        TypedQuery<Employee> query = entityManager.createQuery(
+        Connection.entityManager.getTransaction().begin();
+        TypedQuery<Employee> query = Connection.entityManager.createQuery(
                 "SELECT e FROM Employee e", Employee.class);
         List<Employee> employees = query.getResultList();
-        entityManager.getTransaction().commit();
+        Connection.entityManager.getTransaction().commit();
 
-        // zamknięcie połączenia z bazą
-        entityManager.close();
-        entityManagerFactory.close();
+
 
         return employees;
 

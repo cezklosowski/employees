@@ -11,7 +11,7 @@
             <property name="javax.persistence.jdbc.user" value="employees_user" />
             <property name="javax.persistence.jdbc.password" value="password" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
-            <!-- <property name="hibernate.hbm2ddl.auto" value="none" />  --><!--Generowanie schematu DDL-->
+            <property name="hibernate.hbm2ddl.auto" value="none" /> <!--Generowanie schematu DDL-->
             <property name="hibernate.show_sql" value = "true" /> <!--Logowanie zapytań SQL-->
 
         </properties>
