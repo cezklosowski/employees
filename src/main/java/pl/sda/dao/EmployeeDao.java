@@ -3,10 +3,7 @@ package pl.sda.dao;
 import pl.sda.database_connection.Connection;
 import pl.sda.dto.Employee;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class EmployeeDao {
@@ -19,28 +16,40 @@ public class EmployeeDao {
     public List<Employee> getAll(){
 
         // pobranie tabeli
-        Connection.entityManager.getTransaction().begin();
+        //Connection.entityManager.getTransaction().begin();
         TypedQuery<Employee> query = Connection.entityManager.createQuery(
                 "SELECT e FROM Employee e", Employee.class);
         List<Employee> employees = query.getResultList();
-        Connection.entityManager.getTransaction().commit();
+       // Connection.entityManager.getTransaction().commit();
 
         return employees;
 
     }
 
     public Employee get(Long employeeId){
-        Connection.entityManager.getTransaction().begin();
-        TypedQuery<Employee> typedQuery = Connection.entityManager.createQuery(
-                "SELECT e FROM Employee e WHERE e.id = :id", Employee.class);
-        typedQuery.setParameter("id", employeeId);
-        Employee employee = typedQuery.getSingleResult();
-        return employee;
+        Employee employee = new Employee();
+        try {
+            TypedQuery<Employee> typedQuery = Connection.entityManager.createQuery(
+                    "SELECT e FROM Employee e WHERE e.id = :id", Employee.class);
+            typedQuery.setParameter("id", employeeId);
+            employee = typedQuery.getSingleResult();
 
+
+        } catch (NoResultException e){
+            // Nie ma pracownika o podanym id.
+        }
+        return employee;
     }
 
-    public void delete(int employeeId){
-
+    public void delete(Long employeeId){
+        try {
+            Connection.entityManager.getTransaction().begin();
+            Employee employee = get(employeeId);
+            Connection.entityManager.remove(employee);
+            Connection.entityManager.getTransaction().commit();
+        } catch (NoResultException e){
+            // Nie ma pracownika o podanym id.
+        }
     };
 
     public void save(Employee employee){

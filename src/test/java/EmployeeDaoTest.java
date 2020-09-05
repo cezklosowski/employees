@@ -1,6 +1,4 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import pl.sda.dao.EmployeeDao;
 import pl.sda.database_connection.Connection;
 import pl.sda.dto.Employee;
@@ -11,33 +9,48 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmployeeDaoTest {
 
-    @BeforeEach
-    void setUp() {
+    public static EmployeeDao employeeDao;
+    public static List<Employee> testList;
+
+    @BeforeAll
+    static void setUp() {
         Connection.startConnection();
-
-    }
-
-    @Test
-    public void getAllTest(){
-        List<Employee> testList = List.of(
-                new Employee(1L,"Jan", "Kowalski", "Developer", 5000, 1985),
-                new Employee(2L,"Tomasz", "Nowak", "Manager", 8000, 1970)
+        employeeDao = new EmployeeDao();
+        testList = List.of(
+                new Employee(1L, "Jan", "Kowalski", "Developer", 5000, 1985),
+                new Employee(2L, "Tomasz", "Nowak", "Manager", 8000, 1970)
         );
-        EmployeeDao employeeDao = new EmployeeDao();
-        List<Employee> listFromDatabase = employeeDao.getAll();
-        assertEquals(testList,listFromDatabase);
+    }
 
+
+    @Test
+    public void getAllTest() {
+        List<Employee> listFromDatabase = employeeDao.getAll();
+        assertEquals(testList, listFromDatabase);
     }
 
     @Test
-    public void getTest(){
-        EmployeeDao employeeDao = new EmployeeDao();
+    public void getIfExistTest() {
         Employee employee = employeeDao.get(2L);
-        assertEquals(employee.getFirstName(),"Tomasz");
+        assertEquals(employee.getFirstName(), "Tomasz");
     }
 
-    @AfterEach
-    void tearDown() {
+    @Test
+    public void getIfNotExistTest() {
+        Employee employee = employeeDao.get(-3L);
+        assertNull(employee.getId());
+    }
+
+    @Test
+    public void deleteTest() {
+        employeeDao.delete(2L);
+        Employee employee = employeeDao.get(2L);
+        assertNull(employee.getId());
+    }
+
+
+    @AfterAll
+    static void tearDown() {
         Connection.closeConnection();
     }
 }
