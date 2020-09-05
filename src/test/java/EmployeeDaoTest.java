@@ -55,6 +55,13 @@ class EmployeeDaoTest {
 
     }
 
+    @Test
+    public void updateTest(){
+        Employee employeeUpdated = new Employee(1L, "Jan", "Kowalski", "Developer", 15000, 1985);
+        employeeDao.update(1L,employeeUpdated);
+        assertEquals(employeeUpdated.getSalary(), 15000);
+    }
+
 
     @AfterAll
     static void tearDown() {

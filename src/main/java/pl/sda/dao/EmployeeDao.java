@@ -68,7 +68,20 @@ public class EmployeeDao {
 
     };
 
-    public void update(Employee employee){
+    public void update(Long employeeId, Employee employee){
+
+        Connection.entityManager.getTransaction().begin();
+
+        Employee employeeUpdated = get(employeeId);
+        if (!employeeUpdated.equals(null)) {
+            employeeUpdated.setFirstName(employee.getFirstName());
+            employeeUpdated.setLastName(employee.getLastName());
+            employeeUpdated.setPosition(employee.getPosition());
+            employeeUpdated.setSalary(employee.getSalary());
+            employeeUpdated.setBirthYear(employee.getBirthYear());
+        }
+
+        Connection.entityManager.getTransaction().commit();
 
     };
 
