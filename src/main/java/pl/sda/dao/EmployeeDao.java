@@ -26,7 +26,7 @@ public class EmployeeDao {
 
     }
 
-    public Employee get(Long employeeId){
+    public Employee get(long employeeId){
         Employee employee = new Employee();
         try {
             TypedQuery<Employee> typedQuery = Connection.entityManager.createQuery(
@@ -41,7 +41,7 @@ public class EmployeeDao {
         return employee;
     }
 
-    public void delete(Long employeeId){
+    public void delete(long employeeId){
         try {
             Connection.entityManager.getTransaction().begin();
             Employee employee = get(employeeId);
@@ -68,7 +68,7 @@ public class EmployeeDao {
 
     };
 
-    public void update(Long employeeId, Employee employee){
+    public void update(long employeeId, Employee employee){
 
         Connection.entityManager.getTransaction().begin();
 

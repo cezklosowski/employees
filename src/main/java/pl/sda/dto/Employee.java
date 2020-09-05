@@ -10,7 +10,7 @@ public class Employee {
 
     @Id
     @Column(name="id")
-    private Long id;
+    private long id;
     @Column(name="first_name")
     private String firstName;
     @Column(name="last_name")
@@ -25,7 +25,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String firstName, String lastName, String position, Integer salary, Integer birthYear) {
+    public Employee(long id, String firstName, String lastName, String position, Integer salary, Integer birthYear) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,11 +34,11 @@ public class Employee {
         this.birthYear = birthYear;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -16,11 +16,11 @@
 
         <p:panel header="Lista pracowników">
             <p:dataTable value="#{employeeList.list}" var="employee">
-                <p:column headerText="Nazwisko">
-                    <h:outputText value="#{employee.lastName}"/>
-                </p:column>
                 <p:column headerText="Imie">
                     <h:outputText value="#{employee.firstName}"/>
+                </p:column>
+                <p:column headerText="Nazwisko">
+                    <h:outputText value="#{employee.lastName}"/>
                 </p:column>
                 <p:column headerText="Rok urodzenia">
                     <h:outputText value="#{employee.birthYear}"/>
@@ -32,9 +32,18 @@
                     <h:outputText value="#{employee.salary} PLN"/>
                 </p:column>
                 <p:column headerText="">
+
+                    <!-- usuwanie -->
                     <p:commandButton value="Usuń" id="delete" update="list"
                                      action="${employeeList.deleteEmployee(employee.id)}">
                     </p:commandButton>
+
+                    <!-- edycja -->
+                    <p:commandButton value="Edytuj" type="button" update="updateForm" onclick="PF('popupUpdate').show()" action="${employeeList.loadToUpdate(employee.id)}"/>
+
+
+
+
                 </p:column>
             </p:dataTable>
 
@@ -44,6 +53,7 @@
             <p:commandButton value="Dodaj pracownika" type="button" onclick="PF('popupNew').show();"/>
         </p:panel>
 
+    <!-- Dodanie nowego pracownika -->
     </h:form>
     <p:dialog id="addNewPopup" header="Dodaj Pracownika" widgetVar="popupNew" modal="true" height="300">
         <h:form id="addNewForm">
@@ -68,5 +78,33 @@
             </p:panel>
         </h:form>
     </p:dialog>
+
+    <!-- Edycja danych pracownika -->
+    <p:dialog id="updatePopup" header="Edytuj Pracownika" widgetVar="popupUpdate" modal="true" height="300">
+        <h:form id="updateForm">
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Imie:"/>
+                    <p:inputText value="#{employeeList.updateEmployee.firstName}" required="true"/>
+                    <h:outputLabel value="Nazwisko:"/>
+                    <p:inputText value="#{employeeList.updateEmployee.lastName}" required="true"/>
+                    <h:outputLabel value="Rok urodzenia:"/>
+                    <p:inputText value="#{employeeList.updateEmployee.birthYear}" required="true"/>
+                    <h:outputLabel value="Stanowisko:"/>
+                    <p:inputText value="#{employeeList.updateEmployee.position}" required="true"/>
+                    <h:outputLabel value="Wynagrodzenie:"/>
+                    <p:inputText value="#{employeeList.updateEmployee.salary}" required="true"/>
+
+                </h:panelGrid>
+
+                <p:commandButton value="Dodaj" id="ajax" update="list,updatePopup" action="#{employeeList.updateEmployee}"
+                                 onclick="PF('popupUpdate').close();" />
+
+            </p:panel>
+        </h:form>
+    </p:dialog>
+
+
+
 </h:body>
 </html>
