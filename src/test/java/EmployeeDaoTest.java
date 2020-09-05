@@ -14,10 +14,11 @@ class EmployeeDaoTest {
     @BeforeEach
     void setUp() {
         Connection.startConnection();
+
     }
 
     @Test
-    public void getAll(){
+    public void getAllTest(){
         List<Employee> testList = List.of(
                 new Employee(1L,"Jan", "Kowalski", "Developer", 5000, 1985),
                 new Employee(2L,"Tomasz", "Nowak", "Manager", 8000, 1970)
@@ -25,6 +26,14 @@ class EmployeeDaoTest {
         EmployeeDao employeeDao = new EmployeeDao();
         List<Employee> listFromDatabase = employeeDao.getAll();
         assertEquals(testList,listFromDatabase);
+
+    }
+
+    @Test
+    public void getTest(){
+        EmployeeDao employeeDao = new EmployeeDao();
+        Employee employee = employeeDao.get(2L);
+        assertEquals(employee.getFirstName(),"Tomasz");
     }
 
     @AfterEach

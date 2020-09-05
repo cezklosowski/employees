@@ -18,7 +18,6 @@ public class EmployeeDao {
 
     public List<Employee> getAll(){
 
-
         // pobranie tabeli
         Connection.entityManager.getTransaction().begin();
         TypedQuery<Employee> query = Connection.entityManager.createQuery(
@@ -26,15 +25,19 @@ public class EmployeeDao {
         List<Employee> employees = query.getResultList();
         Connection.entityManager.getTransaction().commit();
 
-
-
         return employees;
 
     }
 
-    //public Employee get(int employeeId){
+    public Employee get(Long employeeId){
+        Connection.entityManager.getTransaction().begin();
+        TypedQuery<Employee> typedQuery = Connection.entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.id = :id", Employee.class);
+        typedQuery.setParameter("id", employeeId);
+        Employee employee = typedQuery.getSingleResult();
+        return employee;
 
-    //};
+    }
 
     public void delete(int employeeId){
 
