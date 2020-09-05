@@ -2,19 +2,54 @@ package pl.sda.dao;
 
 import pl.sda.dto.Employee;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
-public interface EmployeeDao {
+public class EmployeeDao {
 
-    List<Employee> getAll();
+    public EmployeeDao() {
+    }
 
-    Employee get(int employeeId);
+    private List<Employee> employees;
 
-    void delete(int employeeId);
+    public List<Employee> getAll(){
+        // otwarcie połączenia z bazą
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("jpa.hibernate");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-    void save(Employee employee);
+        // pobranie tabeli
+        entityManager.getTransaction().begin();
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e", Employee.class);
+        List<Employee> employees = query.getResultList();
+        entityManager.getTransaction().commit();
 
-    void update(Employee employee);
+        // zamknięcie połączenia z bazą
+        entityManager.close();
+        entityManagerFactory.close();
+
+        return employees;
+
+    }
+
+    //public Employee get(int employeeId){
+
+    //};
+
+    public void delete(int employeeId){
+
+    };
+
+    public void save(Employee employee){
+
+    };
+
+    public void update(Employee employee){
+
+    };
 
 
 
