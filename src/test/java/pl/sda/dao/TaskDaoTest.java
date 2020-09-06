@@ -67,15 +67,14 @@ class TaskDaoTest {
     @Ignore
     @Test
     public void getTasksByEmployeeTest() {
+        addTaskTest();
         List<Task> tasksLocal = Arrays.asList(task,task2);
         List<Task> tasksDatabase = taskDao.getTasksByEmployee(newEmployee.getId());
 
-        System.out.println(tasksLocal.stream().toString());
-        System.out.println(tasksDatabase.stream().toString());
 
         System.out.println();
 
-        assertEquals(2, 2);
+        assertNotEquals(0, tasksDatabase.size());
     }
 
     @AfterAll

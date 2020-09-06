@@ -16,7 +16,7 @@ public class TaskDao {
     public List<Task> getTasksByEmployee(long employeeId){
 
         TypedQuery<Task> typedQuery = Connection.entityManager.createQuery(
-                "SELECT t FROM Task t WHERE t.employee_id = :id", Task.class);
+                "SELECT t FROM Task t WHERE t.employeeId = :id", Task.class);
         typedQuery.setParameter("id", employeeId);
 
         List<Task> tasks = typedQuery.getResultList();
