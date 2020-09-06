@@ -58,13 +58,13 @@ class TaskDaoTest {
 
     @Test
     public void addTaskTest(){
-        System.out.println(newEmployee);
+
         taskDao.addTask(newEmployee.getId(),task);
         taskDao.addTask(newEmployee.getId(),task2);
-        assertEquals(2,2);
+
     }
 
-    @Ignore
+
     @Test
     public void getTasksByEmployeeTest() {
         addTaskTest();
@@ -72,9 +72,20 @@ class TaskDaoTest {
         List<Task> tasksDatabase = taskDao.getTasksByEmployee(newEmployee.getId());
 
 
-        System.out.println();
 
         assertNotEquals(0, tasksDatabase.size());
+    }
+
+    @Test
+    public void updateTask(){
+        Task task3 = new Task("nowe zadanie testowe",LocalDate.of(2020,11,11),false);
+        taskDao.addTask(newEmployee.getId(),task3);
+        Connection.entityManager.persist(task3);
+
+        Task task4 = new Task("nowe zadanie testowe zaktualizowane",LocalDate.of(2020,11,11),true);
+
+        taskDao.updateTask(task3.getId(),task4);
+
     }
 
     @AfterAll

@@ -76,7 +76,12 @@ public class TaskDao {
 
         Connection.entityManager.getTransaction().begin();
 
-        Task taskUpdated = getTask(taskId);
+        TypedQuery<Task> typedQuery = Connection.entityManager.createQuery(
+                "SELECT t FROM Task t WHERE t.id = :id", Task.class);
+        typedQuery.setParameter("id", taskId);
+
+        Task taskUpdated = typedQuery.getSingleResult();
+
         if (!taskUpdated.equals(null)) {
             taskUpdated.setName(task.getName());
             taskUpdated.setDate(task.getDate());
