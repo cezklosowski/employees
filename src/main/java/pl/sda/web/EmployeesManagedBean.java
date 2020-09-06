@@ -3,6 +3,7 @@ package pl.sda.web;
 
 import pl.sda.dao.EmployeeDao;
 import pl.sda.dto.Employee;
+import pl.sda.dto.Task;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,6 +23,10 @@ public class EmployeesManagedBean {
     private Employee updateEmployee = new Employee();
     private EmployeeDao employeeDao = new EmployeeDao();
 
+    private List<Task> tasks = new ArrayList<>();
+    private Task newTask = new Task();
+    private Task updateTask = new Task();
+
     @PostConstruct
     public void init() {
 
@@ -33,21 +38,22 @@ public class EmployeesManagedBean {
         return employees;
     }
 
-    public void loadToUpdate(long id){
-        System.out.println();
-        System.out.println();
-        System.out.println("JESTEM W LOADZIE");
 
-        System.out.println();
-        System.out.println();
+
+    public void loadToUpdate(long id){
+
 
         updateEmployee = employeeDao.get(id);
         //updateEmployee = employees.stream().filter(employee -> employee.getId() == id).findFirst().get();
 
     }
 
+
+
+
+
     public void addNewEmployee() {
-        newEmployee.setId((new Random()).nextLong());
+        //newEmployee.setId((new Random()).nextLong());
         employeeDao.save(newEmployee);
         employees.add(newEmployee);
 
@@ -87,4 +93,46 @@ public class EmployeesManagedBean {
     public void setUpdateEmployee(Employee updateEmployee) {
         this.updateEmployee = updateEmployee;
     }
+
+/*
+    public List<Task> getTaskListByEmployee(long employeeId) {
+        tasks = employeeDao.getTasksByEmployee(employeeId);
+        return tasks;
+    }
+
+
+    public void loadToUpdateTask(long id){
+        updateTask = employeeDao.getTask(id);
+    }
+
+    public void addNewTask(long employeeId) {
+        newTask.setId((new Random()).nextLong());
+        employeeDao.addTask(employeeId,newTask);
+        tasks.add(newTask);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Nowe zadanie zostało dodane!"));
+    }
+
+    public void deleteTask(long taskId) {
+
+        employeeDao.deleteTask(taskId);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Zadanie zostało usunięte!"));
+    }
+
+    public void updateTask() {
+
+        employeeDao.updateTask(updateTask.getId(),updateTask);
+
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Zadanie zostało zaktualizowane!"));
+    }
+
+
+ */
+
+
 }

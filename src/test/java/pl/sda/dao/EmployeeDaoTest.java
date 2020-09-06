@@ -1,3 +1,5 @@
+package pl.sda.dao;
+
 import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import pl.sda.dao.EmployeeDao;
@@ -31,11 +33,7 @@ class EmployeeDaoTest {
         assertNotEquals(0,listFromDatabase.size());
     }
 
-    @Test
-    public void getIfExistTest() {
-        Employee employee = employeeDao.get(2L);
-        assertEquals(employee.getFirstName(), "Tomasz");
-    }
+
 
     @Test
     public void getIfNotExistTest() {
@@ -68,8 +66,11 @@ class EmployeeDaoTest {
     }
 
 
+
     @AfterAll
     static void tearDown() {
         Connection.closeConnection();
     }
+
+
 }

@@ -1,15 +1,16 @@
 package pl.sda.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
     @Column(name="first_name")
@@ -26,7 +27,20 @@ public class Employee {
     @Column(name="birth_year")
     private Integer birthYear;
 
+    @OneToMany
+    @JoinColumn(name = "employee_id")
+    private List<Task> tasks;
+
     public Employee() {
+        tasks = new ArrayList<>();
+    }
+
+    public Employee( String firstName, String lastName, String position, Integer salary, Integer birthYear) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.position = position;
+        this.salary = salary;
+        this.birthYear = birthYear;
     }
 
     public Employee(long id, String firstName, String lastName, String position, Integer salary, Integer birthYear) {
@@ -84,6 +98,14 @@ public class Employee {
 
     public void setBirthYear(Integer birthYear) {
         this.birthYear = birthYear;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override

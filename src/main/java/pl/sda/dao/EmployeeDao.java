@@ -2,6 +2,7 @@ package pl.sda.dao;
 
 import pl.sda.database_connection.Connection;
 import pl.sda.dto.Employee;
+import pl.sda.dto.Task;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,16 +12,15 @@ public class EmployeeDao {
     public EmployeeDao() {
     }
 
-    //private List<Employee> employees;
 
     public List<Employee> getAll(){
 
         // pobranie tabeli
-        //Connection.entityManager.getTransaction().begin();
+
         TypedQuery<Employee> query = Connection.entityManager.createQuery(
                 "SELECT e FROM Employee e", Employee.class);
         List<Employee> employees = query.getResultList();
-       // Connection.entityManager.getTransaction().commit();
+
 
         return employees;
 
@@ -84,6 +84,8 @@ public class EmployeeDao {
         Connection.entityManager.getTransaction().commit();
 
     };
+
+
 
 
 
