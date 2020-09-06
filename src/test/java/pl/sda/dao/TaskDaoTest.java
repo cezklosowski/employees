@@ -1,6 +1,7 @@
 package pl.sda.dao;
 
 import org.junit.Ignore;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,7 +78,7 @@ class TaskDaoTest {
     }
 
     @Test
-    public void updateTask(){
+    public void updateTaskTest(){
         Task task3 = new Task("nowe zadanie testowe",LocalDate.of(2020,11,11),false);
         taskDao.addTask(newEmployee.getId(),task3);
         Connection.entityManager.persist(task3);
@@ -85,6 +86,18 @@ class TaskDaoTest {
         Task task4 = new Task("nowe zadanie testowe zaktualizowane",LocalDate.of(2020,11,11),true);
 
         taskDao.updateTask(task3.getId(),task4);
+
+
+
+    }
+
+    @Test
+    public void deleteTaskTest(){
+        Task task5 = new Task("naprawdę chwilowe zadanie testowe",LocalDate.of(2028,11,11),false);
+        taskDao.addTask(newEmployee.getId(),task5);
+        Connection.entityManager.persist(task5);
+
+        taskDao.deleteTask(task5.getId());
 
     }
 

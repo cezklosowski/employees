@@ -29,7 +29,7 @@ public class TaskDao {
         Task task = new Task();
         try {
             TypedQuery<Task> typedQuery = Connection.entityManager.createQuery(
-                    "SELECT t FROM Task t WHERE t.task_id = :id", Task.class);
+                    "SELECT t FROM Task t WHERE t.id = :id", Task.class);
             typedQuery.setParameter("id", taskId);
             task = typedQuery.getSingleResult();
 
