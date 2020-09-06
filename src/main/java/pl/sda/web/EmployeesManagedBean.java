@@ -2,6 +2,7 @@ package pl.sda.web;
 
 
 import pl.sda.dao.EmployeeDao;
+import pl.sda.dao.TaskDao;
 import pl.sda.dto.Employee;
 import pl.sda.dto.Task;
 
@@ -23,9 +24,11 @@ public class EmployeesManagedBean {
     private Employee updateEmployee = new Employee();
     private EmployeeDao employeeDao = new EmployeeDao();
 
+
     private List<Task> tasks = new ArrayList<>();
     private Task newTask = new Task();
     private Task updateTask = new Task();
+    private TaskDao taskDao = new TaskDao();
 
     @PostConstruct
     public void init() {
@@ -38,7 +41,9 @@ public class EmployeesManagedBean {
         return employees;
     }
 
-
+    public List<Task> getTasks() {
+        return tasks;
+    }
 
     public void loadToUpdate(long id){
 
@@ -94,12 +99,12 @@ public class EmployeesManagedBean {
         this.updateEmployee = updateEmployee;
     }
 
-/*
+
     public List<Task> getTaskListByEmployee(long employeeId) {
-        tasks = employeeDao.getTasksByEmployee(employeeId);
+        tasks = taskDao.getTasksByEmployee(employeeId);
         return tasks;
     }
-
+/*
 
     public void loadToUpdateTask(long id){
         updateTask = employeeDao.getTask(id);
