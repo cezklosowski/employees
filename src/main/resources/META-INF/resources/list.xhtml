@@ -20,7 +20,7 @@
                     <h:outputText value="#{employee.firstName}"/>
                 </p:column>
                 <p:column headerText="Nazwisko">
-                    <h:outputText value="#{employee.lastName}"/>
+                    <h:outputText value="#{employee.lastName}" />
                 </p:column>
                 <p:column headerText="Rok urodzenia">
                     <h:outputText value="#{employee.birthYear}"/>
@@ -60,13 +60,13 @@
             <p:panel>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Imie:"/>
-                    <p:inputText value="#{employeeList.newEmployee.firstName}" required="true"/>
+                    <p:inputText value="#{employeeList.newEmployee.firstName}" required="true" maxlength="15" />
                     <h:outputLabel value="Nazwisko:"/>
-                    <p:inputText value="#{employeeList.newEmployee.lastName}" required="true"/>
+                    <p:inputText value="#{employeeList.newEmployee.lastName}" required="true" maxlength="15"/>
                     <h:outputLabel value="Rok urodzenia:"/>
                     <p:inputText value="#{employeeList.newEmployee.birthYear}" required="true"/>
                     <h:outputLabel value="Stanowisko:"/>
-                    <p:inputText value="#{employeeList.newEmployee.position}" required="true"/>
+                    <p:inputText value="#{employeeList.newEmployee.position}" required="true" maxlength="15"/>
                     <h:outputLabel value="Wynagrodzenie:"/>
                     <p:inputText value="#{employeeList.newEmployee.salary}" required="true"/>
 
@@ -85,13 +85,13 @@
             <p:panel>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Imie:"/>
-                    <p:inputText value="#{employeeList.updateEmployee.firstName}" required="true"/>
+                    <p:inputText value="#{employeeList.updateEmployee.firstName}" required="true" maxlength="15"/>
                     <h:outputLabel value="Nazwisko:"/>
-                    <p:inputText value="#{employeeList.updateEmployee.lastName}" required="true"/>
+                    <p:inputText value="#{employeeList.updateEmployee.lastName}" required="true" maxlength="15"/>
                     <h:outputLabel value="Rok urodzenia:"/>
                     <p:inputText value="#{employeeList.updateEmployee.birthYear}" required="true"/>
                     <h:outputLabel value="Stanowisko:"/>
-                    <p:inputText value="#{employeeList.updateEmployee.position}" required="true"/>
+                    <p:inputText value="#{employeeList.updateEmployee.position}" required="true" maxlength="15"/>
                     <h:outputLabel value="Wynagrodzenie:"/>
                     <p:inputText value="#{employeeList.updateEmployee.salary}" required="true"/>
 

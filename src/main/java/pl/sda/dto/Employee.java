@@ -3,6 +3,7 @@ package pl.sda.dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -12,10 +13,13 @@ public class Employee {
     @Column(name="id")
     private long id;
     @Column(name="first_name")
+    @Size(max=15)
     private String firstName;
     @Column(name="last_name")
+    @Size(max=15)
     private String lastName;
     @Column(name="position")
+    @Size(max=15)
     private String position;
     @Column(name="salary")
     private Integer salary;
