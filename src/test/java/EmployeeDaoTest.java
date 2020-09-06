@@ -1,3 +1,4 @@
+import org.junit.Ignore;
 import org.junit.jupiter.api.*;
 import pl.sda.dao.EmployeeDao;
 import pl.sda.database_connection.Connection;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Ignore
 class EmployeeDaoTest {
 
     public static EmployeeDao employeeDao;
@@ -38,20 +40,23 @@ class EmployeeDaoTest {
     @Test
     public void getIfNotExistTest() {
         Employee employee = employeeDao.get(-3L);
-        assertNull(employee.getId());
+        assertNull(employee.getFirstName());
     }
 
     @Test
     public void saveAndDeleteTest() {
 
-        Employee employee = new Employee(3L, "Zbigniew", "Mickiewicz", "Manager", 10000, 1999);
+        Employee employee = new Employee(999999999999L, "Zbigniew", "Mickiewicz", "Manager", 10000, 1999);
         employeeDao.save(employee);
-        Employee employeeSaved = employeeDao.get(3L);
+        Employee employeeSaved = employeeDao.get(999999999999L);
         assertEquals(employeeSaved.getFirstName(), "Zbigniew");
 
-        employeeDao.delete(3L);
-        Employee employeeDeleted = employeeDao.get(3L);
-        assertNull(employeeDeleted.getId());
+
+
+        employeeDao.delete(999999999999L);
+        Employee employeeDeleted = employeeDao.get(999999999999L);
+        assertNull(employeeDeleted.getFirstName());
+
 
     }
 

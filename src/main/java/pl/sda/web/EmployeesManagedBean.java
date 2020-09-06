@@ -34,7 +34,15 @@ public class EmployeesManagedBean {
     }
 
     public void loadToUpdate(long id){
+        System.out.println();
+        System.out.println();
+        System.out.println("JESTEM W LOADZIE");
+
+        System.out.println();
+        System.out.println();
+
         updateEmployee = employeeDao.get(id);
+        //updateEmployee = employees.stream().filter(employee -> employee.getId() == id).findFirst().get();
 
     }
 

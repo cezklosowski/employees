@@ -36,7 +36,7 @@ public class EmployeeDao {
 
 
         } catch (NoResultException e){
-            // Nie ma pracownika o podanym id.
+            // nie ma takiego pracownika
         }
         return employee;
     }
