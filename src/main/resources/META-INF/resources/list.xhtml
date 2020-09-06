@@ -43,9 +43,9 @@
                                      action="${employeeList.loadToUpdate(employee.id)}"/>
 
                     <!-- wyświetlenie zadań -> overlay panel -->
-                    <p:commandButton update="tasks" oncomplete="PF('taskList').show()" icon="pi pi-search" title="Zadania" >
-                        <f:setPropertyActionListener value="" target="" />
-                    </p:commandButton>
+                    <p:commandButton update="tasksForm" onclick="PF('taskList').show()"
+                                     action="${employeeList.getTasks(employee.id)}" icon="pi pi-search"
+                                     title="Zadania"/>
 
 
                 </p:column>
@@ -113,29 +113,31 @@
     </p:dialog>
 
     <!-- Wyświetlanie zadań -->
-    <p:overlayPanel widgetVar="taskList" showEffect="fade" hideEffect="fade" dismissable="false" showCloseIcon="true">
-        <p:outputPanel id="tasks" style="">
+    <p:overlayPanel id="tasksPopup" widgetVar="taskList" showEffect="fade" hideEffect="fade" dismissable="false"
+                    showCloseIcon="true">
+
+        <h:form id="tasksForm">
+
             <p:panel header="Lista zadań">
-                <p:dataTable value="#{employeeList.tasks}" var="task">
+                <p:dataTable value="#{employeeList.userTasksReload(employee.id)}" var="task">
                     <p:column headerText="Nazwa">
                         <h:outputText value="#{task.name}"/>
                     </p:column>
                     <p:column headerText="Data">
-                        <h:outputText value="{task.date}"/>
+                        <h:outputText value="#{task.date}"/>
                     </p:column>
                     <p:column headerText="Zrobione?">
-                        <h:outputText value="{task.done}"/>
+                        <h:outputText value="#{task.done}"/>
                     </p:column>
 
                     <p:column headerText="" style="width:300px;text-align: center">
 
                         <!-- usuwanie -->
-                        <p:commandButton value="Usuń" id="delete" update="" />
+                        <p:commandButton value="Usuń" id="delete" update=""/>
 
 
                         <!-- edycja -->
                         <p:commandButton value="Edytuj" update="" onclick=""/>
-
 
 
                     </p:column>
@@ -147,9 +149,9 @@
                 <p:commandButton value="Dodaj zadanie" type="button" onclick=""/>
             </p:panel>
 
+        </h:form>
 
 
-        </p:outputPanel>
     </p:overlayPanel>
 
 

@@ -100,16 +100,28 @@ public class EmployeesManagedBean {
     }
 
 
-    public List<Task> getTaskListByEmployee(long employeeId) {
-        tasks = taskDao.getTasksByEmployee(employeeId);
+    public List<Task> getTasks(long employeeId) {
+
+        tasks = taskDao.tasks(employeeId);
+        System.out.println("szukam tasków");
+        System.out.println("jestem w beanie");
+        if (tasks.size()>0) {
+            System.out.println(tasks.get(0));
+        } else {
+            System.out.println("Pusto w liście");
+        }
         return tasks;
     }
-/*
 
-    public void loadToUpdateTask(long id){
-        updateTask = employeeDao.getTask(id);
+    public List<Task> userTasksReload(long employeeID){
+        return tasks;
     }
 
+
+    public void loadToUpdateTask(long id){
+        updateTask = taskDao.getTask(id);
+    }
+/*
     public void addNewTask(long employeeId) {
         newTask.setId((new Random()).nextLong());
         employeeDao.addTask(employeeId,newTask);

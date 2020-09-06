@@ -74,5 +74,14 @@ public class Task {
         this.employeeId = employeeId;
     }
 
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", done=" + done +
+                ", employeeId=" + employeeId +
+                '}';
+    }
 }

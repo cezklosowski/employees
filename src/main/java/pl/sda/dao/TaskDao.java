@@ -13,11 +13,14 @@ public class TaskDao {
     public TaskDao() {
     }
 
-    public List<Task> getTasksByEmployee(long employeeId){
+    public List<Task> tasks(long employeeId){
 
         TypedQuery<Task> typedQuery = Connection.entityManager.createQuery(
                 "SELECT t FROM Task t WHERE t.employeeId = :id", Task.class);
         typedQuery.setParameter("id", employeeId);
+
+        System.out.println("To jest szukane id: " + employeeId);
+
 
         List<Task> tasks = typedQuery.getResultList();
 

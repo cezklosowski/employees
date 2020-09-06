@@ -24,9 +24,11 @@ class TaskDaoTest {
     public static TaskDao taskDao;
     public static EmployeeDao employeeDao;
     public static Employee newEmployee;
+    public static Employee newEmployee2;
     public static Task task;
     public static Task task2;
-    public static Scanner scanner;
+    public static Task task8;
+
 
     @BeforeAll
     static void setUp() {
@@ -38,6 +40,7 @@ class TaskDaoTest {
 
         // utworzenie testowego użytkownika
         Employee employee = new Employee( "Jan", "Kowalski", "Developer", 5000, 1985);
+        Employee employee2 = new Employee( "Zygmunt", "Nowak", "Manager", 8000, 1990);
 
         // zapisanie testowego użytkownika
         employeeDao.save(employee);
@@ -48,11 +51,22 @@ class TaskDaoTest {
         typedQuery.setParameter("position", "Developer");
         newEmployee = typedQuery.getResultList().get(0);
 
+        employeeDao.save(employee2);
+        TypedQuery<Employee> typedQuery2 = Connection.entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.firstName = :firstName AND e.lastName = :lastName AND e.position = :position", Employee.class);
+        typedQuery.setParameter("firstName", "Zygmunt");
+        typedQuery.setParameter("lastName", "Nowak");
+        typedQuery.setParameter("position", "Manager");
+        newEmployee2 = typedQuery.getResultList().get(0);
+
 
         // utworzenie testowych zadań
         task = new Task("Pierwsze zadanie", LocalDate.of(2020,05,12),false);
 
         task2 = new Task("Drugie zadanie", LocalDate.of(2019,05,10),true);
+        task8 = new Task("Trzecie zadanie", LocalDate.of(2008,3,30),true);
+
+
 
 
     }
@@ -62,15 +76,16 @@ class TaskDaoTest {
 
         taskDao.addTask(newEmployee.getId(),task);
         taskDao.addTask(newEmployee.getId(),task2);
+        taskDao.addTask(newEmployee2.getId(),task8);
 
     }
 
 
     @Test
-    public void getTasksByEmployeeTest() {
+    public void getTasks() {
         addTaskTest();
         List<Task> tasksLocal = Arrays.asList(task,task2);
-        List<Task> tasksDatabase = taskDao.getTasksByEmployee(newEmployee.getId());
+        List<Task> tasksDatabase = taskDao.tasks(newEmployee.getId());
 
 
 
