@@ -49,7 +49,8 @@ public class EmployeesManagedBean {
 
 
         updateEmployee = employeeDao.get(id);
-        //updateEmployee = employees.stream().filter(employee -> employee.getId() == id).findFirst().get();
+
+        System.out.println("Wywołany emp:" + updateEmployee.getId());
 
     }
 
@@ -58,7 +59,7 @@ public class EmployeesManagedBean {
 
 
     public void addNewEmployee() {
-        //newEmployee.setId((new Random()).nextLong());
+
         employeeDao.save(newEmployee);
         employees.add(newEmployee);
 
@@ -99,9 +100,56 @@ public class EmployeesManagedBean {
         this.updateEmployee = updateEmployee;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public void setNewEmployee(Employee newEmployee) {
+        this.newEmployee = newEmployee;
+    }
+
+    public EmployeeDao getEmployeeDao() {
+        return employeeDao;
+    }
+
+    public void setEmployeeDao(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Task getNewTask() {
+        return newTask;
+    }
+
+    public void setNewTask(Task newTask) {
+        this.newTask = newTask;
+    }
+
+    public Task getUpdateTask() {
+        return updateTask;
+    }
+
+    public void setUpdateTask(Task updateTask) {
+        this.updateTask = updateTask;
+    }
+
+    public TaskDao getTaskDao() {
+        return taskDao;
+    }
+
+    public void setTaskDao(TaskDao taskDao) {
+        this.taskDao = taskDao;
+    }
 
     public List<Task> getTasks(long employeeId) {
-
+        updateEmployee = employeeDao.get(employeeId);
         tasks = taskDao.tasks(employeeId);
         System.out.println("szukam tasków");
         System.out.println("jestem w beanie");
@@ -118,19 +166,20 @@ public class EmployeesManagedBean {
     }
 
 
-    public void loadToUpdateTask(long id){
+    public void loadToTaskUpdate(long id){
         updateTask = taskDao.getTask(id);
     }
-/*
-    public void addNewTask(long employeeId) {
-        newTask.setId((new Random()).nextLong());
-        taskDao.addTask(employeeId,newTask);
+
+    public void addNewTask() {
+
+        taskDao.addTask(updateEmployee.getId(),newTask);
+        System.out.println("ID: " + updateEmployee.getId());
         tasks.add(newTask);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Nowe zadanie zostało dodane!"));
     }
-*/
+
     public void deleteTask(long taskId) {
 
         taskDao.deleteTask(taskId);
@@ -138,10 +187,10 @@ public class EmployeesManagedBean {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało usunięte!"));
     }
-/*
+
     public void updateTask() {
 
-        employeeDao.updateTask(updateTask.getId(),updateTask);
+        taskDao.updateTask(updateTask.getId(),updateTask);
 
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -149,7 +198,7 @@ public class EmployeesManagedBean {
     }
 
 
- */
+
 
 
 }

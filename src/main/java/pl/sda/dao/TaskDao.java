@@ -52,12 +52,14 @@ public class TaskDao {
         EmployeeDao employeeDao = new EmployeeDao();
 
         if (!employeeDao.get(employeeId).equals(null)) {
-            List<Task> updatedTasks = employeeDao.get(employeeId).getTasks();
+            Employee employee = employeeDao.get(employeeId);
+            List<Task> updatedTasks = employee.getTasks();
 
-            employeeDao.get(employeeId).getTasks().add(task);
+            updatedTasks.add(task);
             task.setEmployeeId(employeeId);
             Connection.entityManager.persist(task);
-            employeeDao.get(employeeId).setTasks(updatedTasks);
+            employee.setTasks(updatedTasks);
+
         }
 
         Connection.entityManager.getTransaction().commit();

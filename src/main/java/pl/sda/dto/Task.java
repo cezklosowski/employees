@@ -3,6 +3,7 @@ package pl.sda.dto;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 public class Task {
@@ -17,7 +18,7 @@ public class Task {
     private String name;
 
     @Column(name="task_date")
-    private LocalDate date;
+    private Date date;
 
     @Column(name="if_done")
     private boolean done;
@@ -28,7 +29,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(String name, LocalDate date, boolean done) {
+    public Task(String name, Date date, boolean done) {
         this.name = name;
         this.date = date;
         this.done = done;
@@ -50,11 +51,11 @@ public class Task {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

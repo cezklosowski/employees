@@ -43,7 +43,7 @@
                                      action="${employeeList.loadToUpdate(employee.id)}"/>
 
                     <!-- wyświetlenie zadań -> overlay panel -->
-                    <p:commandButton update="tasksForm" onclick="PF('taskList').show()"
+                    <p:commandButton update="taskForm" onclick="PF('taskList').show()"
                                      action="${employeeList.getTasks(employee.id)}" icon="pi pi-search"
                                      title="Zadania"/>
 
@@ -113,21 +113,25 @@
     </p:dialog>
 
     <!-- Wyświetlanie zadań -->
-    <p:overlayPanel id="tasksPopup" widgetVar="taskList" showEffect="fade" hideEffect="fade" dismissable="false"
+    <p:overlayPanel id="taskList" widgetVar="taskList" showEffect="fade" hideEffect="fade" dismissable="false"
                     showCloseIcon="true">
 
-        <h:form id="tasksForm">
+        <h:form id="taskForm">
 
             <p:panel header="Lista zadań">
                 <p:dataTable value="#{employeeList.userTasksReload(employee.id)}" var="task">
-                    <p:column headerText="Nazwa">
+                    <p:column headerText="Nazwa" style="width:700px;">
                         <h:outputText value="#{task.name}"/>
                     </p:column>
                     <p:column headerText="Data">
-                        <h:outputText value="#{task.date}"/>
+                        <h:outputText value="#{task.date}">
+                            <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                        </h:outputText>
                     </p:column>
-                    <p:column headerText="Zrobione?">
-                        <h:outputText value="#{task.done}"/>
+                    <p:column headerText="Zrobione?" style="width:150px;text-align: center">
+
+                        <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-check" rendered="#{task.done}" />
+                        <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-close" rendered="#{!task.done}" />
                     </p:column>
 
                     <p:column headerText="" style="width:300px;text-align: center">
@@ -138,7 +142,8 @@
 
 
                         <!-- edycja -->
-                        <p:commandButton value="Edytuj" update="" onclick=""/>
+                        <p:commandButton value="Edytuj" update="updateTaskForm" onclick="PF('popupTaskUpdate').show()"
+                                         action="${employeeList.loadToTaskUpdate(task.id)}"/>
 
 
                     </p:column>
@@ -147,13 +152,65 @@
             </p:panel>
 
             <p:panel>
-                <p:commandButton value="Dodaj zadanie" type="button" onclick=""/>
+                <p:commandButton value="Dodaj zadanie" type="button" onclick="PF('popupTaskNew').show();" />
             </p:panel>
 
         </h:form>
 
 
     </p:overlayPanel>
+
+    <!-- Dodanie nowego zadania -->
+    <p:dialog id="addNewTaskPopup" header="Dodaj zadanie" widgetVar="popupTaskNew" modal="true" height="300">
+        <h:form id="addNewTaskForm">
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nazwa:"/>
+                    <p:inputText value="#{employeeList.newTask.name}" required="true" maxlength="50"/>
+                    <h:outputLabel value="Data:"/>
+                    <p:inputText type="date" value="#{employeeList.newTask.date}" required="true">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:inputText>
+                    <h:outputLabel value="Zrobione"/>
+
+                    <h:selectOneRadio value = "#{employeeList.newTask.done}" required="true">
+                        <f:selectItem itemValue = "false" itemLabel = "Nie" />
+                        <f:selectItem itemValue = "true" itemLabel = "Tak" />
+                    </h:selectOneRadio>
+
+
+                </h:panelGrid>
+
+                <p:commandButton value="Dodaj" id="ajax" update="taskList,addNewTaskPopup"
+                                 action="#{employeeList.addNewTask}"
+                                 onclick="PF('popupTaskNew').close();"/>
+
+            </p:panel>
+        </h:form>
+    </p:dialog>
+
+    <!-- Edycja zadania -->
+    <p:dialog id="updateTaskPopup" header="Edytuj zadanie" widgetVar="popupTaskUpdate" modal="true" height="300">
+        <h:form id="updateTaskForm">
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nazwa:"/>
+                    <p:inputText value="#{taskList.updateTask.name}" required="true" maxlength="50"/>
+                    <h:outputLabel value="Data:"/>
+                    <p:inputText value="#{taskList.updateTask.date}" required="true" />
+                    <h:outputLabel value="Zrobione"/>
+                    <p:inputText value="#{taskList.updateTask.done}" required="true"/>
+
+
+                </h:panelGrid>
+
+                <p:commandButton value="Dodaj" id="ajax" update="taskList,updateTaskPopup"
+                                 action="#{taskList.updateTask}"
+                                 onclick="PF('popupTaskUpdate').close();"/>
+
+            </p:panel>
+        </h:form>
+    </p:dialog>
 
 
 </h:body>
