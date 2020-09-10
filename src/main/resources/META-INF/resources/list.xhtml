@@ -133,7 +133,8 @@
                     <p:column headerText="" style="width:300px;text-align: center">
 
                         <!-- usuwanie -->
-                        <p:commandButton value="Usuń" id="delete" update=""/>
+                        <p:commandButton value="Usuń" id="delete" update="list"
+                                         action="${employeeList.deleteTask(task.id)}"/>
 
 
                         <!-- edycja -->

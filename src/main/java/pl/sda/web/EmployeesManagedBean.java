@@ -124,21 +124,21 @@ public class EmployeesManagedBean {
 /*
     public void addNewTask(long employeeId) {
         newTask.setId((new Random()).nextLong());
-        employeeDao.addTask(employeeId,newTask);
+        taskDao.addTask(employeeId,newTask);
         tasks.add(newTask);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Nowe zadanie zostało dodane!"));
     }
-
+*/
     public void deleteTask(long taskId) {
 
-        employeeDao.deleteTask(taskId);
+        taskDao.deleteTask(taskId);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało usunięte!"));
     }
-
+/*
     public void updateTask() {
 
         employeeDao.updateTask(updateTask.getId(),updateTask);
