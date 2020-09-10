@@ -104,7 +104,7 @@
 
                 </h:panelGrid>
 
-                <p:commandButton value="Dodaj" id="ajax" update="list,updatePopup"
+                <p:commandButton value="Zapisz" id="ajax" update="list,updatePopup"
                                  action="#{employeeList.updateEmployee}"
                                  onclick="PF('popupUpdate').close();"/>
 
@@ -128,7 +128,7 @@
                             <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Zrobione?" style="width:150px;text-align: center">
+                    <p:column headerText="Zrobione?" style="width:150px;text-align: center;">
 
                         <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-check" rendered="#{task.done}" />
                         <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-close" rendered="#{!task.done}" />
@@ -137,7 +137,7 @@
                     <p:column headerText="" style="width:300px;text-align: center">
 
                         <!-- usuwanie -->
-                        <p:commandButton value="Usuń" id="delete" update="list"
+                        <p:commandButton value="Usuń" id="delete" update="taskList,list" oncomplete="PF('taskList').show();"
                                          action="${employeeList.deleteTask(task.id)}"/>
 
 
@@ -195,17 +195,23 @@
             <p:panel>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Nazwa:"/>
-                    <p:inputText value="#{taskList.updateTask.name}" required="true" maxlength="50"/>
+                    <p:inputText value="#{employeeList.updateTask.name}" required="true" maxlength="50"/>
                     <h:outputLabel value="Data:"/>
-                    <p:inputText value="#{taskList.updateTask.date}" required="true" />
+                    <p:inputText type="date" value="#{employeeList.updateTask.date}" required="true">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:inputText>
+
                     <h:outputLabel value="Zrobione"/>
-                    <p:inputText value="#{taskList.updateTask.done}" required="true"/>
+                    <h:selectOneRadio value = "#{employeeList.updateTask.done}" required="true">
+                        <f:selectItem itemValue = "false" itemLabel = "Nie" />
+                        <f:selectItem itemValue = "true" itemLabel = "Tak" />
+                    </h:selectOneRadio>
 
 
                 </h:panelGrid>
 
-                <p:commandButton value="Dodaj" id="ajax" update="taskList,updateTaskPopup"
-                                 action="#{taskList.updateTask}"
+                <p:commandButton value="Zapisz" id="ajax" update="taskList,updateTaskPopup"
+                                 action="#{employeeList.updateTask}"
                                  onclick="PF('popupTaskUpdate').close();"/>
 
             </p:panel>
