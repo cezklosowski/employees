@@ -145,8 +145,6 @@
                             <p:commandButton value="Edytuj" update="updateTaskForm"
                                              onclick="PF('popupTaskUpdate').show()"
                                              action="${employeeList.loadToTaskUpdate(task.id)}"/>
-
-
                         </p:column>
                     </p:dataTable>
                 </h:form>
@@ -212,7 +210,7 @@
 
                 <p:commandButton value="Dodaj" id="ajax" update="addNewTaskPopup, taskForm, list"
                                  action="#{employeeList.addNewTask}"
-                                 onclick="PF('tasks').show();"/>
+                                 />
 
             </p:panel>
         </h:form>

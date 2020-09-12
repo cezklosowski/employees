@@ -14,16 +14,11 @@ public class EmployeeDao {
 
 
     public List<Employee> getAll(){
-
-        // pobranie tabeli
-
         TypedQuery<Employee> query = Connection.entityManager.createQuery(
                 "SELECT e FROM Employee e", Employee.class);
         List<Employee> employees = query.getResultList();
 
-
         return employees;
-
     }
 
     public Employee get(long employeeId){
@@ -33,8 +28,6 @@ public class EmployeeDao {
                     "SELECT e FROM Employee e WHERE e.id = :id", Employee.class);
             typedQuery.setParameter("id", employeeId);
             employee = typedQuery.getSingleResult();
-
-
         } catch (NoResultException e){
             // nie ma takiego pracownika
         }
@@ -53,7 +46,6 @@ public class EmployeeDao {
     };
 
     public void save(Employee employee){
-
         Employee newEmployee = new Employee();
         newEmployee.setId(employee.getId());
         newEmployee.setFirstName(employee.getFirstName());
@@ -65,11 +57,9 @@ public class EmployeeDao {
         Connection.entityManager.getTransaction().begin();
         Connection.entityManager.persist(newEmployee);
         Connection.entityManager.getTransaction().commit();
-
     };
 
     public void update(long employeeId, Employee employee){
-
         Connection.entityManager.getTransaction().begin();
 
         Employee employeeUpdated = get(employeeId);
@@ -82,12 +72,5 @@ public class EmployeeDao {
         }
 
         Connection.entityManager.getTransaction().commit();
-
     };
-
-
-
-
-
-
 }

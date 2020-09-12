@@ -8,7 +8,6 @@ public class Connection {
     public static EntityManagerFactory entityManagerFactory;
     public static EntityManager entityManager;
 
-
     public static void startConnection(){
         // otwarcie połączenia z bazą
         entityManagerFactory = Persistence.createEntityManagerFactory("jpa.hibernate");
@@ -20,5 +19,4 @@ public class Connection {
         entityManager.close();
         entityManagerFactory.close();
     }
-
 }

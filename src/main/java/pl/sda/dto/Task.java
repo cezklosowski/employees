@@ -2,7 +2,6 @@ package pl.sda.dto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity

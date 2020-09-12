@@ -19,13 +19,9 @@ public class TaskDao {
                 "SELECT t FROM Task t WHERE t.employeeId = :id", Task.class);
         typedQuery.setParameter("id", employeeId);
 
-        System.out.println("To jest szukane id: " + employeeId);
-
-
         List<Task> tasks = typedQuery.getResultList();
 
         return tasks;
-
     }
 
     public Task getTask(long taskId){
@@ -36,19 +32,15 @@ public class TaskDao {
             typedQuery.setParameter("id", taskId);
             task = typedQuery.getSingleResult();
 
-
         } catch (NoResultException e){
             // nie ma takiego zadania
         }
         return task;
     }
 
-
-
-
-
     public void addTask(long employeeId, Task task){
         Connection.entityManager.getTransaction().begin();
+
         EmployeeDao employeeDao = new EmployeeDao();
 
         if (!employeeDao.get(employeeId).equals(null)) {
@@ -59,9 +51,7 @@ public class TaskDao {
             task.setEmployeeId(employeeId);
             Connection.entityManager.persist(task);
             employee.setTasks(updatedTasks);
-
         }
-
         Connection.entityManager.getTransaction().commit();
 
     }
@@ -75,8 +65,6 @@ public class TaskDao {
         } catch (NoResultException e){
             // Nie ma zadania o podanym id.
         }
-
-
     };
 
     public void updateTask(long taskId, Task task){
@@ -94,11 +82,6 @@ public class TaskDao {
             taskUpdated.setDate(task.getDate());
             taskUpdated.setDone(task.isDone());
         }
-
         Connection.entityManager.getTransaction().commit();
-
     };
-
-
-
 }

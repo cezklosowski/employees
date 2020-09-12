@@ -24,7 +24,6 @@ public class EmployeesManagedBean {
     private Employee updateEmployee = new Employee();
     private EmployeeDao employeeDao = new EmployeeDao();
 
-
     private List<Task> tasks = new ArrayList<>();
     private Task newTask = new Task();
     private Task updateTask = new Task();
@@ -32,9 +31,7 @@ public class EmployeesManagedBean {
 
     @PostConstruct
     public void init() {
-
     }
-
 
     public List<Employee> getList() {
         employees = employeeDao.getAll();
@@ -42,25 +39,14 @@ public class EmployeesManagedBean {
     }
 
     public List<Task> getTasks() {
-
         return tasks;
     }
 
     public void loadToUpdate(long id){
-
-
         updateEmployee = employeeDao.get(id);
-
-        System.out.println("Wywołany emp:" + updateEmployee.getId());
-
     }
 
-
-
-
-
     public void addNewEmployee() {
-
         employeeDao.save(newEmployee);
         employees.add(newEmployee);
 
@@ -70,7 +56,6 @@ public class EmployeesManagedBean {
 
 
     public void deleteEmployee(long id) {
-
         employeeDao.delete(id);
 
         FacesContext context = FacesContext.getCurrentInstance();
@@ -78,9 +63,7 @@ public class EmployeesManagedBean {
     }
 
     public void updateEmployee() {
-
         employeeDao.update(updateEmployee.getId(),updateEmployee);
-
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Pracownik został zaktualizowany!"));
@@ -91,7 +74,6 @@ public class EmployeesManagedBean {
     public Employee getNewEmployee() {
         return newEmployee;
     }
-
 
     public Employee getUpdateEmployee() {
         return updateEmployee;
@@ -150,17 +132,16 @@ public class EmployeesManagedBean {
     }
 
     public List<Task> getTasks(long employeeId) {
+        newTask = new Task();
         updateEmployee = employeeDao.get(employeeId);
         tasks = taskDao.tasks(employeeId);
 
-        newTask = new Task();
 
         return tasks;
     }
 
     public List<Task> userTasksReload(long employeeID){
         newTask = new Task();
-
         return tasks;
     }
 
@@ -170,50 +151,30 @@ public class EmployeesManagedBean {
     }
 
     public void addNewTask() {
-
-
         taskDao.addTask(updateEmployee.getId(),newTask);
-        System.out.println("ID: " + updateEmployee.getId());
         tasks.add(newTask);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Nowe zadanie zostało dodane!"));
+
+        newTask = new Task();
     }
 
     public void deleteTask(long taskId) {
-
-
-
         Task taskToDelete = taskDao.getTask(taskId);
         updateEmployee = employeeDao.get(taskToDelete.getEmployeeId());
-
-        System.out.println("ID użytkownika od usunięcia: " + updateEmployee.getId());
-
-        System.out.println("Lista zadań przed usunięciem " + updateEmployee.getTasks());
-
         updateEmployee.getTasks().remove(taskToDelete);
 
-        System.out.println("Lista zadań po usunięciu " + updateEmployee.getTasks());
-
         taskDao.deleteTask(taskId);
-
-        System.out.println("Lista zadań po usunięciu 2 " + updateEmployee.getTasks());
-
-
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało usunięte!"));
 
         newTask = new Task();
-
-
-
     }
 
     public void updateTask() {
-
         taskDao.updateTask(updateTask.getId(),updateTask);
-
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało zaktualizowane!"));
@@ -221,9 +182,4 @@ public class EmployeesManagedBean {
         newTask = new Task();
 
     }
-
-
-
-
-
 }
