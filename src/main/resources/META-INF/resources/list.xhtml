@@ -31,7 +31,8 @@
                 <p:column headerText="Wynagrodzenie">
                     <h:outputText value="#{employee.salary} PLN"/>
                 </p:column>
-                <p:column headerText="" style="width:300px;text-align: center">
+                <p:column headerText="" style="width:350px;text-align: center">
+
 
                     <!-- usuwanie -->
                     <p:commandButton value="Usuń" id="delete" update="list"
@@ -41,6 +42,13 @@
                     <!-- edycja -->
                     <p:commandButton value="Edytuj" update="updateForm" onclick="PF('popupUpdate').show()"
                                      action="${employeeList.loadToUpdate(employee.id)}"/>
+
+                    <!-- zadania -->
+                    <p:commandButton value="Zadania" onclick="PF('tasks').show();"
+                                     update="taskTable" action="${employeeList.getTasks(employee.id)}"/>
+
+
+
                 </p:column>
 
             </p:dataTable>
@@ -100,6 +108,108 @@
                 <p:commandButton value="Zapisz" id="ajax" update="list,updatePopup"
                                  action="#{employeeList.updateEmployee}"
                                  onclick="PF('popupUpdate').close();"/>
+
+            </p:panel>
+        </h:form>
+    </p:dialog>
+
+    <!-- Wyświetlanie zadań -->
+    <p:dialog header="Lista zadań" widgetVar="tasks" modal="true" >
+        <p:panel>
+            <p:dataTable id="taskTable" value="#{employeeList.userTasksReload(employee.id)}" var="task">
+                <p:column headerText="Nazwa" style="width:700px;">
+                    <h:outputText value="#{task.name}"/>
+                </p:column>
+                <p:column headerText="Data">
+                    <h:outputText value="#{task.date}">
+                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Zrobione?" style="width:150px;text-align: center;">
+
+                    <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-check"
+                                   rendered="#{task.done}"/>
+                    <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-close"
+                                   rendered="#{!task.done}"/>
+                </p:column>
+
+                <p:column headerText="" style="width:300px;text-align: center">
+
+                    <!-- usuwanie -->
+                    <p:commandButton value="Usuń" id="delete" update="list,taskTable"
+                                     action="${employeeList.deleteTask(task.id)}"
+                                     oncomplete="PF('tasks').hide();"/>
+
+                    <!-- edycja -->
+                    <p:commandButton value="Edytuj" update="updateTaskForm" onclick="PF('popupTaskUpdate').show()"
+                                     action="${employeeList.loadToTaskUpdate(task.id)}"/>
+
+
+
+                </p:column>
+            </p:dataTable>
+
+        </p:panel>
+
+        <p:panel>
+            <p:commandButton value="Dodaj zadanie" type="button" onclick="PF('popupTaskNew').show();"/>
+        </p:panel>
+
+    </p:dialog>
+
+    <!-- Edycja zadania -->
+    <p:dialog id="updateTaskPopup" header="Edytuj zadanie" widgetVar="popupTaskUpdate" modal="true" height="300">
+        <h:form id="updateTaskForm">
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nazwa:"/>
+                    <p:inputText value="#{employeeList.updateTask.name}" required="true" maxlength="50"/>
+                    <h:outputLabel value="Data:"/>
+                    <p:inputText type="date" value="#{employeeList.updateTask.date}" required="true">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:inputText>
+
+                    <h:outputLabel value="Zrobione"/>
+                    <h:selectOneRadio value="#{employeeList.updateTask.done}" required="true">
+                        <f:selectItem itemValue="false" itemLabel="Nie"/>
+                        <f:selectItem itemValue="true" itemLabel="Tak"/>
+                    </h:selectOneRadio>
+
+
+                </h:panelGrid>
+
+                <p:commandButton value="Zapisz" id="ajax" update="updateTaskPopup"
+                                 action="#{employeeList.updateTask}"
+                                 onclick="PF('popupTaskUpdate').close();"/>
+
+            </p:panel>
+        </h:form>
+    </p:dialog>
+
+    <!-- Dodanie nowego zadania -->
+    <p:dialog id="addNewTaskPopup" header="Dodaj zadanie" widgetVar="popupTaskNew" modal="true" height="300">
+        <h:form id="addNewTaskForm">
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nazwa:"/>
+                    <p:inputText value="#{employeeList.newTask.name}" required="true" maxlength="50"/>
+                    <h:outputLabel value="Data:"/>
+                    <p:inputText type="date" value="#{employeeList.newTask.date}" required="true">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </p:inputText>
+                    <h:outputLabel value="Zrobione"/>
+
+                    <h:selectOneRadio value="#{employeeList.newTask.done}" required="true">
+                        <f:selectItem itemValue="false" itemLabel="Nie"/>
+                        <f:selectItem itemValue="true" itemLabel="Tak"/>
+                    </h:selectOneRadio>
+
+
+                </h:panelGrid>
+
+                <p:commandButton value="Dodaj" id="ajax" update="list,addNewTaskPopup"
+                                 action="#{employeeList.addNewTask}"
+                                 onclick="PF('popupTaskNew').close();"/>
 
             </p:panel>
         </h:form>
