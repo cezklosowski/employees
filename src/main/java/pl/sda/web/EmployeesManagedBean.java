@@ -159,6 +159,8 @@ public class EmployeesManagedBean {
     }
 
     public List<Task> userTasksReload(long employeeID){
+        newTask = new Task();
+
         return tasks;
     }
 
@@ -180,10 +182,32 @@ public class EmployeesManagedBean {
 
     public void deleteTask(long taskId) {
 
+
+
+        Task taskToDelete = taskDao.getTask(taskId);
+        updateEmployee = employeeDao.get(taskToDelete.getEmployeeId());
+
+        System.out.println("ID użytkownika od usunięcia: " + updateEmployee.getId());
+
+        System.out.println("Lista zadań przed usunięciem " + updateEmployee.getTasks());
+
+        updateEmployee.getTasks().remove(taskToDelete);
+
+        System.out.println("Lista zadań po usunięciu " + updateEmployee.getTasks());
+
         taskDao.deleteTask(taskId);
+
+        System.out.println("Lista zadań po usunięciu 2 " + updateEmployee.getTasks());
+
+
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało usunięte!"));
+
+        newTask = new Task();
+
+
+
     }
 
     public void updateTask() {
@@ -193,6 +217,9 @@ public class EmployeesManagedBean {
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Zadanie zostało zaktualizowane!"));
+
+        newTask = new Task();
+
     }
 
 

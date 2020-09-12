@@ -45,8 +45,7 @@
 
                     <!-- zadania -->
                     <p:commandButton value="Zadania" onclick="PF('tasks').show();"
-                                     update="taskTable" action="${employeeList.getTasks(employee.id)}"/>
-
+                                     update="taskForm" action="${employeeList.getTasks(employee.id)}"/>
 
 
                 </p:column>
@@ -114,48 +113,52 @@
     </p:dialog>
 
     <!-- Wyświetlanie zadań -->
-    <p:dialog header="Lista zadań" widgetVar="tasks" modal="true" >
-        <p:panel>
-            <p:dataTable id="taskTable" value="#{employeeList.userTasksReload(employee.id)}" var="task">
-                <p:column headerText="Nazwa" style="width:700px;">
-                    <h:outputText value="#{task.name}"/>
-                </p:column>
-                <p:column headerText="Data">
-                    <h:outputText value="#{task.date}">
-                        <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Zrobione?" style="width:150px;text-align: center;">
+    <p:panel>
+        <p:dialog id="tasksList" header="Lista zadań" widgetVar="tasks" modal="true">
+            <p:panel>
+                <h:form id="taskForm">
+                    <p:dataTable id="taskTable" value="#{employeeList.updateEmployee.tasks}" var="task">
+                        <p:column headerText="Nazwa" style="width:700px;">
+                            <h:outputText value="#{task.name}"/>
+                        </p:column>
+                        <p:column headerText="Data">
+                            <h:outputText value="#{task.date}">
+                                <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Zrobione?" style="width:150px;text-align: center;">
 
-                    <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-check"
-                                   rendered="#{task.done}"/>
-                    <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-close"
-                                   rendered="#{!task.done}"/>
-                </p:column>
+                            <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-check"
+                                           rendered="#{task.done}"/>
+                            <p:outputPanel layout="inline" styleClass="ui-icon ui-icon-circle-close"
+                                           rendered="#{!task.done}"/>
+                        </p:column>
 
-                <p:column headerText="" style="width:300px;text-align: center">
+                        <p:column headerText="" style="width:300px;text-align: center">
 
-                    <!-- usuwanie -->
-                    <p:commandButton value="Usuń" id="delete" update="list,taskTable"
-                                     action="${employeeList.deleteTask(task.id)}"
-                                     oncomplete="PF('tasks').hide();"/>
+                            <!-- usuwanie -->
+                            <p:commandButton value="Usuń" id="delete" update="taskForm, list"
+                                             action="${employeeList.deleteTask(task.id)}"
+                            />
 
-                    <!-- edycja -->
-                    <p:commandButton value="Edytuj" update="updateTaskForm" onclick="PF('popupTaskUpdate').show()"
-                                     action="${employeeList.loadToTaskUpdate(task.id)}"/>
+                            <!-- edycja -->
+                            <p:commandButton value="Edytuj" update="updateTaskForm"
+                                             onclick="PF('popupTaskUpdate').show()"
+                                             action="${employeeList.loadToTaskUpdate(task.id)}"/>
 
 
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
 
-                </p:column>
-            </p:dataTable>
+            </p:panel>
 
-        </p:panel>
+            <p:panel>
+                <p:commandButton value="Dodaj zadanie" type="button" onclick="PF('popupTaskNew').show();"/>
+            </p:panel>
 
-        <p:panel>
-            <p:commandButton value="Dodaj zadanie" type="button" onclick="PF('popupTaskNew').show();"/>
-        </p:panel>
-
-    </p:dialog>
+        </p:dialog>
+    </p:panel>
 
     <!-- Edycja zadania -->
     <p:dialog id="updateTaskPopup" header="Edytuj zadanie" widgetVar="popupTaskUpdate" modal="true" height="300">
@@ -178,9 +181,9 @@
 
                 </h:panelGrid>
 
-                <p:commandButton value="Zapisz" id="ajax" update="updateTaskPopup"
+                <p:commandButton value="Zapisz" id="ajax" update="updateTaskPopup, taskForm"
                                  action="#{employeeList.updateTask}"
-                                 onclick="PF('popupTaskUpdate').close();"/>
+                                 onclick="PF('tasks').show();"/>
 
             </p:panel>
         </h:form>
@@ -207,9 +210,9 @@
 
                 </h:panelGrid>
 
-                <p:commandButton value="Dodaj" id="ajax" update="list,addNewTaskPopup"
+                <p:commandButton value="Dodaj" id="ajax" update="addNewTaskPopup, taskForm, list"
                                  action="#{employeeList.addNewTask}"
-                                 onclick="PF('popupTaskNew').close();"/>
+                                 onclick="PF('tasks').show();"/>
 
             </p:panel>
         </h:form>

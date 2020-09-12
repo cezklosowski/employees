@@ -75,6 +75,8 @@ public class TaskDao {
         } catch (NoResultException e){
             // Nie ma zadania o podanym id.
         }
+
+
     };
 
     public void updateTask(long taskId, Task task){
